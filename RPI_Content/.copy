@@ -1,0 +1,92 @@
+import http.client
+import urllib.parse
+import time
+import serial
+key = "SWNIY15Q6LJ7KLDU"  # Put your API Key here
+
+ser = serial.Serial('/dev/ttyUSB0', 9600,timeout=1)
+
+def iot_main():
+    while True:
+        incoming = ser.readline().strip()
+        data = incoming.decode()
+        #print(data)
+        idx1 = data.find("d=")
+        if idx1==0:
+           val1 = data[idx1+2:idx1+4]
+           params = urllib.parse.urlencode({'field1': val1 , 'key':key })
+           #print(val1)
+        #idx2 = data.find("AT=")
+        #if idx2==0:
+           #val2 = data[idx2+4:idx2+6]
+           #params = urllib.parse.urlencode({'field2': val2 , 'key':key })
+           #print(val2)
+        idx2 = data.find("B=")
+        if idx2==0:
+           val2 = data[idx2+2:idx2+5]
+          # params = urllib.parse.urlencode({'field2': val2 , 'key':key })
+           print('Router2:',val2)
+           #print(val3)
+        idx4 = data.find("x=")
+        if idx4==0:
+           val3 = data[idx4+2:idx4+5]
+          # params = urllib.parse.urlencode({'field3': val3 , 'key':key })
+           print('End Router:',val3)
+           #print(val4)
+        #idx5 = data.find("y=")
+        #if idx5==0:
+        #val5= data[idx5+2:idx5+5]
+        #params = urllib.parse.urlencode({'field4': val4 , 'key':key })
+        #print(val5)
+        idx6 = data.find("A=")
+        if idx6==0:
+           val4 = data[idx6+2:idx6+5]
+           #params = urllib.parse.urlencode({'field4': val4 , 'key':key })
+           print('Router1:',val4)
+        idx7 = data.find("H=")
+        if idx7==0:
+           val5 = data[idx7+2:idx7+5]
+           print('Router(std router):',val5) 
+        # params = urllib.parse.urlencode({'field5': val5 , 'key':key })
+	   #print(val7)
+        #idx8 = data.find("y_A=")
+        #if idx8==0:
+        #   val8 = data[idx8+7:idx8+9]
+        #   params = urllib.parse.urlencode({'field8': val8 , 'key':key })
+        #   #print(val8)
+        #idx9 = data.find("z_A=")
+        #if idx9==0:
+        #   val9 = data[idx9+7:idx9+9]
+        #   params = urllib.parse.urlencode({'field2': val9 , 'key':key })
+        #   #print(val9)
+
+
+#        headers = {"Content-typZZe": "application/x-www-form-urlencoded","Accept": "text/plain"}
+#        conn = http.client.HTTPConnection("api.thingspeak.com:80")
+#        print(conn)
+
+
+#        conn.request("POST", "/update", params, headers)
+#        response = conn.getresponse()
+#        print(response.status, response.reason,'Please visit: https://thingspeak.com/channels/1235452')
+#        data = response.read()
+#        conn.close()
+
+#        try:
+#           conn.request("POST", "/update", params, headers)
+#           response = conn.getresponse()
+#           print(response.status, response.reason,'Please visit: https://thingspeak.com/channels/1235452')
+#           data = response.read()
+#           conn.close()
+#        except:
+#           print("connection failed")
+#        break
+
+if __name__ == "__main__":
+
+    try:
+        while True:
+            iot_main()
+    except KeyboardInterrupt:
+        print("Press Ctrl-C to terminate while statement")
+        pass
